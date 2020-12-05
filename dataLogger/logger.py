@@ -3,6 +3,9 @@ import logging.handlers
 import json
 
 def logger():
+    ''' logger 객체 가쟈오기, logging 객체 자체를 가져옴
+    info, debug, warn, critical 사용가능
+    콘솔은 Debug 레벨, 슬랙은 Warn 레벨부터'''
     return make_logger();
 
 
@@ -21,8 +24,8 @@ def make_logger(name=None):
     console = logging.StreamHandler()
     slack_handler = SlackHandler(slack_token, slack_channel)
 
-    console.setLevel(logging.INFO)
-    slack_handler.setLevel(logging.DEBUG)
+    console.setLevel(logging.DEBUG)
+    slack_handler.setLevel(logging.WARN)
 
     console.setFormatter(formatter)
     slack_handler.setFormatter(formatter)

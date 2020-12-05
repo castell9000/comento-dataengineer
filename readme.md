@@ -1,2 +1,7 @@
+##language Env
 python3.6
-slacker
+
+##required packages
+slacker, pandas, pymysql
+
+pip install (packasges)
