@@ -12,4 +12,4 @@ if __name__ == '__main__':
     result = pandas.read_sql_query(sql, db_connect)
 
     # console, slack 에 결과 보내기
-    print(datalog().warn(result.to_json()))
+    print(datalog('data').debug(result.to_json()))

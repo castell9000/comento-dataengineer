@@ -1,13 +1,21 @@
 import logging
 import logging.handlers
 import json
+import os, sys
+from datetime import datetime
 
-def logger():
-    ''' logger 객체 가쟈오기, logging 객체 자체를 가져옴
+
+def logger(name=None):
+    ''' 받은 name 객체는 사용자
+    logger 객체 가쟈오기, logging 객체 자체를 가져옴
     info, debug, warn, critical 사용가능
     콘솔은 Debug 레벨, 슬랙은 Warn 레벨부터'''
-    return make_logger();
+    return make_logger(name);
 
+def success():
+#    로거 객체 오버라이드 하면 되지 않을까..?
+
+def fail():
 
 def make_logger(name=None):
     with open('config.json', 'r') as f:
@@ -21,16 +29,23 @@ def make_logger(name=None):
 
     formatter = logging.Formatter("[%(asctime)s] (%(levelname)s) %(filename)s : %(message)s")
 
+    date ='{:%Y-%m-%d}'.format(datetime.now())
+    filename = 'logs/'+date+'_'+name+'.log'
+
     console = logging.StreamHandler()
+    file_handler = logging.FileHandler(filename, 'w')
     slack_handler = SlackHandler(slack_token, slack_channel)
 
     console.setLevel(logging.DEBUG)
+    file_handler.setLevel(logging.DEBUG)
     slack_handler.setLevel(logging.WARN)
 
     console.setFormatter(formatter)
+    file_handler.setFormatter(formatter)
     slack_handler.setFormatter(formatter)
 
     logger.addHandler(console)
+    logger.addHandler(file_handler)
     logger.addHandler(slack_handler)
 
     return logger
